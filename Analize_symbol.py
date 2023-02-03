@@ -18,7 +18,7 @@ class Analize_symbol():
     def create_symbol_dataset (symbol):
     
     
-        data = pd.read_pickle("./"+symbol)
+        data = pd.read_pickle("./"+symbol+'.pkl')
         
                     
         df = pd.DataFrame(data[1:],columns=data[0][:])
@@ -50,8 +50,8 @@ class Analize_symbol():
         return df_
     
 
-    @staticmethod
-    def Represent_symbol (columns):
+    # @staticmethod
+    # def Represent_symbol (columns):
         
 
 
