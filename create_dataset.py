@@ -1,4 +1,5 @@
 import pandas as pd
+<<<<<<< HEAD
 import requests
 
 symbol = 6408 # Financial stock
@@ -54,3 +55,14 @@ cookies = {
 response = requests.get(url)#, headers=headers) #,cookies=cookies)
 
 print(response.text)
+=======
+import numpy as np
+
+# aaa = np.readtxt('prueba.json')
+# df = pd.read_json('prueba.json')
+
+
+f = open("prueba.json", "r")
+a = f.read()
+print(a)
+>>>>>>> e7716e7a2e1dd593440f4c1a3305ca34df2d6a96
