@@ -1,0 +1,5 @@
+# Jupyter notebook cahe
+.ipynb_checkpoints
+
+# Environment files
+.env
