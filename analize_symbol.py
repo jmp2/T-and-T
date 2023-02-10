@@ -7,10 +7,13 @@ Created on Tue Dec 27 12:39:37 2022
 
 import pandas as pd
 import matplotlib.pyplot as plt
-import pickle
 import numpy as np
 from datetime import datetime as dt
-
+from plotly.subplots import make_subplots
+import plotly.graph_objects as go
+import time
+import plotly.io as pio
+pio.renderers.default='browser'
 
 class Analize_symbol():
 
@@ -18,7 +21,7 @@ class Analize_symbol():
     def create_symbol_dataset (symbol):
     
     
-        data = pd.read_pickle("./"+symbol+'.pkl')
+        data = pd.read_pickle("./data/"+symbol+'.pkl')
         
                     
         df = pd.DataFrame(data[1:],columns=data[0][:])
@@ -50,8 +53,30 @@ class Analize_symbol():
         return df_
     
 
-    # @staticmethod
-    # def Represent_symbol (columns):
+    @staticmethod
+    def represent_symbol (data, columns, date_ini, date_end):
+        
+        
+        format = "%d-%m-%Y"
+        start_time = dt.strptime(date_ini, format)
+        final_time = dt.strptime(date_end, format)
+        data = data[data["unix"]>=time.mktime(start_time.timetuple())]
+        data = data[data["unix"]<=time.mktime(final_time.timetuple())]
+        
+        nplots = len(columns)
+        
+        fig = make_subplots(rows=nplots, cols=1)
+                                        
+        for i in range (nplots):
+            if "sma" in columns[i] or columns[i] == 'close':
+                fig.add_trace(go.Scatter(x=data.index, y=data[columns[i]], name=columns[i]), row=1, col=1)
+            else:
+                fig.add_trace(go.Scatter(x=data.index, y=data[columns[i]], name=columns[i]), row=i+1, col=1)
+        
+
+        fig.show()
+         
+         
         
 
 
