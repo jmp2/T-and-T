@@ -19,9 +19,23 @@ class Calculate_indicator():
         df[["macd_close", "macdh_close", "macds_close"]] = ta.macd(
                                                                 df["close"],
                                                      slow = slow)
+        df["cross_macd"] = df["macd_close"]
+               
+        for i in range(1,len(df)):
+            if (df["macd_close"][i-1] < 0 and df["macd_close"][i]>0):
+                df["cross_macd"][i] = 1
+            else:
+                df["cross_macd"][i] = 0
+                    
+                
         return df
     
     @staticmethod
-    def compute_sma(df, period=50):
+    def compute_sma(df:pd.DataFrame, period=50):
         df["sma"+ str(period) + "_close"]=ta.sma(df["close"], length = period)
+        return df
+    
+    @staticmethod
+    def compute_mean_rsi(df:pd.DataFrame, period=5):
+        df["mean_rsi_close"]=ta.sma(df["rsi_close"], length = period)
         return df

@@ -6,7 +6,7 @@ import time
 
 class Simulator():
 
-    def __init__(self, budget, strategy="rsi", quantity=5, fixed_comission=0, variable_comission=0.01, min_tax=4) -> None:
+    def __init__(self, budget, strategy, quantity=5, fixed_comission=0, variable_comission=0.01, min_tax=4) -> None:
         """
         Inputs:
             - budget: Initial capital
@@ -52,7 +52,9 @@ class Simulator():
         if self.budget >= self.quantity*stock_price + taxes:
             self.budget = self.budget - self.quantity*stock_price - taxes
             self.n_stocks = self.n_stocks+self.quantity
+            self.strategy.position = stock_price; ###  - -------> HAY QUE AÑADIR QUE SE VAYA CALCULANDO, VER COMO HACERLO CON MÚLTIPLES POSICIONES
             print(f"\n\n Order: buy || Price: {stock_price} || N_Stocks: {self.n_stocks} || Budget: {self.budget}")
+            
         # else:
         #     sys.exit("No budget available")
     

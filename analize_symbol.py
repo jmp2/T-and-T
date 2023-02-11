@@ -54,7 +54,7 @@ class Analize_symbol():
     
 
     @staticmethod
-    def represent_symbol (data, columns, date_ini, date_end):
+    def represent_symbol (data, columns, positions, date_ini, date_end):
         
         
         format = "%d-%m-%Y"
@@ -68,10 +68,10 @@ class Analize_symbol():
         fig = make_subplots(rows=nplots, cols=1)
                                         
         for i in range (nplots):
-            if "sma" in columns[i] or columns[i] == 'close':
-                fig.add_trace(go.Scatter(x=data.index, y=data[columns[i]], name=columns[i]), row=1, col=1)
-            else:
-                fig.add_trace(go.Scatter(x=data.index, y=data[columns[i]], name=columns[i]), row=i+1, col=1)
+            
+            fig.add_trace(go.Scatter(x=data.index, y=data[columns[i]], name=columns[i]), row=positions[i], col=1)
+            
+
         
 
         fig.show()
