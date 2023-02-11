@@ -2,7 +2,7 @@
 """
 Created on Sat Oct 15 22:44:48 2022
 
-@author: segar
+@author: T&T
 
 
 Modes:

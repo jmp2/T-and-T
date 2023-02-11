@@ -22,7 +22,7 @@ class Simulator():
         self.n_stocks = 0
         self.fixed_comission = fixed_comission
         if variable_comission >= 1:
-            msg = "\n"+"#"*100 + f"\n\nERROR: Variable comission must be set as a number not percentage.\nPLease, try {variable_comission/100} instead" 
+            msg = "\n"+"#"*100 + f"\n\nERROR: Variable comission must be set as a number not percentage.\nPlease, try {variable_comission/100} instead" 
             exit(msg)
         self.variable_comission = variable_comission
         self.min_tax = min_tax
@@ -75,7 +75,7 @@ class Simulator():
         if order == "sell":
             total = self.n_stocks*stock_price*self.variable_comission + self.fixed_comission
         
-        if total > self.min_tax:
+        if total < self.min_tax:
             total = self.min_tax
         
         return total
