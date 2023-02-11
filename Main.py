@@ -27,16 +27,19 @@ budget = 1000
 quantity = 60
 strategy = rsi(30,70)
 
+date_ini = "25-01-2021"
+date_end = "27-03-2021"
+
 df = Analize_symbol.create_symbol_dataset(args)
 Calculate_indicator.compute_rsi(df)
 Calculate_indicator.compute_sma(df, 100)
 
 #Analize_symbol.represent_symbol(df, ["close","rsi_close", 'sma100_close'], date_ini = "25-01-2021", date_end = "26-01-2021")
 
-simulator = Simulator(budget, strategy, quantity)
-simulator.run_simulation(df, "25-01-2021", "26-01-2021")
+simulator = Simulator(budget, strategy, quantity, variable_comission=0.01)
+simulator.run_simulation(df, date_ini, date_end)
 
-
+Analize_symbol.represent_symbol(df, ["close","rsi_close"], date_ini=date_ini, date_end =date_end)
 # def mode_1():
 #     df = Analize_symbol.create_symbol_dataset(args)
 #     print(df)
