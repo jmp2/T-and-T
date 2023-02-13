@@ -4,34 +4,34 @@
 from calculate_indicator import Calculate_indicator
 
 
-class rsi():
+# class rsi():
     
-    def __init__(self, value_buy=30, value_sell=70, period_rsi = 14):
-        self.value_buy = value_buy
-        self.value_sell = value_sell
-        self.period_rsi = period_rsi
-        self.position = []
+#     def __init__(self, value_buy=30, value_sell=70, period_rsi = 14):
+#         self.value_buy = value_buy
+#         self.value_sell = value_sell
+#         self.period_rsi = period_rsi
+#         self.position = []
 
     
-    def perform(self, data):
-        """
-        RSI strategy:
-            - When RSI exceeds 70 points we sell position.
-            - When RSI drops 30 points we buy position.
-        Inputs:
-            rsi_value: Current RSI value
-        Outputs:             
-        """
-        rsi_value = data["rsi_close"]
-        if rsi_value > self.value_sell:
-            return "sell"
-        if rsi_value < self.value_buy:
-            return "buy"
-        return None
+#     def perform(self, data):
+#         """
+#         RSI strategy:
+#             - When RSI exceeds 70 points we sell position.
+#             - When RSI drops 30 points we buy position.
+#         Inputs:
+#             rsi_value: Current RSI value
+#         Outputs:             
+#         """
+#         rsi_value = data["rsi_close"]
+#         if rsi_value > self.value_sell:
+#             return "sell"
+#         if rsi_value < self.value_buy:
+#             return "buy"
+#         return None
     
-    def calculate_indicators(self, data):
-        # Add indicators
-        data = Calculate_indicator.compute_rsi(data, self.period_rsi)
+#     def calculate_indicators(self, data):
+#         # Add indicators
+#         data = Calculate_indicator.compute_rsi(data, self.period_rsi)
 
 
 class rsi_macd():
@@ -58,7 +58,7 @@ class rsi_macd():
         """
         if data["cross_macd"] == 1 and data["rsi_close"]>data["mean_rsi_close"]:
             return "buy"
-        profit = data["rsi_close"]/self.position -1
+        profit = data["close"]/self.position -1
         if profit>self.take_profit or profit<self.stop_loss:
             return "sell"
         return None

@@ -19,13 +19,10 @@ class Calculate_indicator():
         df[["macd_close", "macdh_close", "macds_close"]] = ta.macd(
                                                                 df["close"],
                                                      slow = slow)
-        df["cross_macd"] = df["macd_close"]
-               
-        for i in range(1,len(df)):
-            if (df["macd_close"][i-1] < 0 and df["macd_close"][i]>0):
-                df["cross_macd"][i] = 1
-            else:
-                df["cross_macd"][i] = 0
+        df["cross_macd"] = False
+        condition_1 = df["macd_close"].shift(1)<0       
+        condition_2 = df["macd_close"]>0
+        df["cross_macd"][condition_1 * condition_2] = True
                     
                 
         return df
