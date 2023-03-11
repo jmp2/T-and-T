@@ -14,6 +14,12 @@ class rsi():
 
     def get_name(self):
         return "RSI"
+    
+    def get_columns(self):
+        cols = [
+            "rsi_close"
+        ]
+        return cols
 
     def perform(self, data):
         """
@@ -51,6 +57,14 @@ class rsi_macd():
     
     def get_name(self):
         return "RSI_MACD"
+    
+    def get_columns(self):
+        cols = [
+            "cross_macd",
+            "rsi_close",
+            "mean_rsi_close"
+        ]
+        return cols
 
     def perform(self, data):
         """
