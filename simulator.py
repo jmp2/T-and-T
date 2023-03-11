@@ -3,6 +3,7 @@ import sys
 from datetime import datetime as dt
 import time
 from src.report import Report
+from src.graphic_report import GraphicReport
 from utils.position import Position
 
 class Simulator():
@@ -33,6 +34,7 @@ class Simulator():
         self.open_position_list = []
 
         self.report = Report(save_report=True)
+        self.graphic_report = GraphicReport()
         self.log_initial_parameters()
     
     def log_initial_parameters(self):
@@ -76,6 +78,12 @@ class Simulator():
         self.report.register_total_comissions(self.total_comissions)
         self.report.compute_positions_metrics(self.historic_position_list)
         self.report.print_report()
+
+        self.graphic_report.set_data(data)
+        self.graphic_report.register_position_metrics(self.historic_position_list)
+        self.graphic_report.plot_graph(self.strategy.get_columns())
+
+
 
     def buy_position(self, stock_price):
         taxes = self.compute_total_taxes("buy", stock_price)
