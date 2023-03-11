@@ -63,14 +63,16 @@ class Simulator():
         for idx in range(data.shape[0]):
             order = self.strategy.perform(data.loc[idx])         
             if order == "buy":
-                new_pos = Position(data.index[idx], data["close"].loc[idx], self.quantity)
                 # self.historic_position_list.append(new_pos)
-                self.open_position_list.append(new_pos)
-                self.buy_position(data["close"].loc[idx])
+                buy_flag = self.buy_position(data["close"].loc[idx])
+                if buy_flag ==True:
+                    new_pos = Position(data.index[idx], data["close"].loc[idx], self.quantity)
+                    self.open_position_list.append(new_pos)
                 #print(f"\n\n RSI: {data['rsi_close'].loc[idx]} || Order: {order} || Price: {data.close.loc[idx]} || N_Stocks: {self.n_stocks} || Budget: {self.budget}")
             if order == "sell":
-                self.close_positions(data.index[idx],data["close"].loc[idx])
-                self.sell_position(data["close"].loc[idx])
+                sell_flag = self.sell_position(data["close"].loc[idx])
+                if sell_flag == True:
+                    self.close_positions(data.index[idx],data["close"].loc[idx])
                 #print(f"\n\n RSI: {data['rsi_close'].loc[idx]} || Order: {order} || Price: {data.close.loc[idx]} || N_Stocks: {self.n_stocks} || Budget: {self.budget}")
             # if data["rsi_close"].loc[idx] < 20 or data["rsi_close"].loc[idx] > 70:
 
@@ -83,8 +85,6 @@ class Simulator():
         self.graphic_report.register_position_metrics(self.historic_position_list)
         self.graphic_report.plot_graph(self.strategy.get_columns())
 
-
-
     def buy_position(self, stock_price):
         taxes = self.compute_total_taxes("buy", stock_price)
         self.total_comissions += taxes
@@ -93,6 +93,8 @@ class Simulator():
             self.n_stocks = self.n_stocks+self.quantity
             self.strategy.position = stock_price; ###  - -------> HAY QUE AÑADIR QUE SE VAYA CALCULANDO, VER COMO HACERLO CON MÚLTIPLES POSICIONES
             print(f"\n\n Order: buy || Price: {stock_price} || N_Stocks: {self.n_stocks} || Budget: {self.budget}")
+            return True
+        return False
     
     def sell_position(self, stock_price):
         if self.n_stocks > 0:
@@ -101,6 +103,8 @@ class Simulator():
             self.budget = self.budget + self.n_stocks*stock_price - taxes
             self.n_stocks = 0
             print(f"\n\n Order: sell || Price: {stock_price} || N_Stocks: {self.n_stocks} || Budget: {self.budget}")
+            return True
+        return False
 
     def change_index(self,data):
         if data.index.name == "time":
