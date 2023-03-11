@@ -78,7 +78,7 @@ class rsi_macd():
         if data["cross_macd"] == 1 and data["rsi_close"]>data["mean_rsi_close"]:
             return "buy"
         profit = data["close"]/self.position -1
-        if profit>self.take_profit or profit<self.stop_loss:
+        if profit>self.take_profit or profit<self.stop_loss or data["rsi_close"] > self.value_sell:
             return "sell"
         return None
     
