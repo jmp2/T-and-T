@@ -48,9 +48,18 @@ class Report():
                 mean_profit += result
             else:
                 mean_loss += result
-        self.mean_profit = mean_profit / succes_counter
-        self.mean_loss = mean_loss / (len(position_list)-succes_counter)
-        self.success_rate = succes_counter / len(position_list)
+        if succes_counter != 0:
+            self.mean_profit = mean_profit / succes_counter
+            self.success_rate = succes_counter / len(position_list)
+        else:
+            self.mean_profit =0
+            self.success_rate = 0
+        if (len(position_list)-succes_counter) != 0:
+            self.mean_loss = mean_loss / (len(position_list)-succes_counter)
+        else:
+            self.mean_loss = 0
+            
+        
 
 
     def print_report(self):
