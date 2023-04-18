@@ -25,7 +25,6 @@ class GraphicReport():
         else:
             self.seaborn_plot(cols)
 
-    
     def plotly_plot(self, cols):
         # fig = make_subplots(rows=nplots, cols=1)
         fig = make_subplots(rows=2, cols=1)
@@ -43,8 +42,7 @@ class GraphicReport():
         for pos in self.position_list:
             g.axvline(x=pos.open_date, color="green")
             g.axvline(x=pos.close_date, color="red")
-        
         for col in cols:
             sns.lineplot(ax=axes[1], data=self.data, x=self.data.index, y=col)
-        
+
         plt.show()
