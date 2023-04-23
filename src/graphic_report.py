@@ -18,7 +18,7 @@ class GraphicReport():
 
     def register_position_metrics(self, position_list):
         self.position_list = position_list
-    
+
     def plot_graph(self, cols, plotly=False):
         if plotly == True:
             self.plotly_plot(cols)
@@ -35,7 +35,7 @@ class GraphicReport():
         for column in cols:
             fig.add_trace(go.Scatter(x=self.data.index, y=self.data[column], name=column), row=2, col=1)
         fig.show()
-    
+
     def seaborn_plot(self, cols):
         fig, axes = plt.subplots(2, 1, figsize=(18, 10))
         g = sns.lineplot(ax=axes[0], data=self.data, x=self.data.index, y="close")
@@ -43,6 +43,7 @@ class GraphicReport():
             g.axvline(x=pos.open_date, color="green")
             g.axvline(x=pos.close_date, color="red")
         for col in cols:
-            sns.lineplot(ax=axes[1], data=self.data, x=self.data.index, y=col)
-
+            sns.lineplot(ax=axes[1], data=self.data, x=self.data.index,
+                         y=col, label=col)
+        plt.legend()
         plt.show()
