@@ -7,6 +7,7 @@ Created on Wed Feb  1 20:53:41 2023
 
 import pandas_ta as ta
 import pandas as pd
+import numpy as np
 
 class Calculate_indicator():
     @staticmethod
@@ -20,8 +21,8 @@ class Calculate_indicator():
                                                                 df["close"],
                                                      slow = slow)
         df["cross_macd"] = False
-        condition_1 = df["macd_close"].shift(1)<0       
-        condition_2 = df["macd_close"]>0
+        condition_1 = df["macdh_close"].shift(1)<0.04
+        condition_2 = df["macdh_close"]>0.04
         df["cross_macd"][condition_1 * condition_2] = True
                     
                 
@@ -35,4 +36,10 @@ class Calculate_indicator():
     @staticmethod
     def compute_mean_rsi(df:pd.DataFrame, period=5):
         df["mean_rsi_close"]=ta.sma(df["rsi_close"], length = period)
+        df["derivative_mean_rsi_close"] = np.insert(np.diff(df["mean_rsi_close"]), 0, 0)
+        df["derivative_mean_rsi_close"] = ta.sma(df["derivative_mean_rsi_close"], length=3)
+        
+        df["2_derivative_mean_rsi_close"] = np.insert(np.diff(df["derivative_mean_rsi_close"]), 0, 0)
+        df["2_derivative_mean_rsi_close"] = ta.sma(df["2_derivative_mean_rsi_close"], length=3)
+        
         return df

@@ -49,7 +49,7 @@ class Simulator():
                 self.historic_position_list.append(position)
                 self.open_position_list.remove(position)
 
-    def run_simulation(self, data, date_ini, date_end):
+    def run_simulation(self, data, date_ini, date_end, plot=False):
         format = "%d-%m-%Y"
         start_time = dt.strptime(date_ini, format)
         final_time = dt.strptime(date_end, format)
@@ -81,10 +81,11 @@ class Simulator():
         self.report.register_total_comissions(self.total_comissions)
         self.report.compute_positions_metrics(self.historic_position_list)
         self.report.print_report()
-
-        self.graphic_report.set_data(data)
-        self.graphic_report.register_position_metrics(self.historic_position_list)
-        self.graphic_report.plot_graph(self.strategy.get_columns())
+        if plot:
+            self.graphic_report.set_data(data)
+            self.graphic_report.register_position_metrics(self.historic_position_list)
+            [cols, col_pos] = self.strategy.get_columns()
+            self.graphic_report.plot_graph(cols, col_pos)
 
     def buy_position(self, stock_price):
         taxes = self.compute_total_taxes("buy", stock_price)

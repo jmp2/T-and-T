@@ -26,7 +26,7 @@ def function_profit(x):
 def function_profit_rsi_macd(x):
     budget = 10000
     quantity = 500
-    strategy = rsi_macd(value_buy=x[0], value_sell=x[1], period_rsi = int(x[2]), period_mean_rsi=int(x[3]), fast_macd = int(x[4]), slow_macd = int(x[5]), take_profit = x[6], stop_loss = x[7])
+    strategy = rsi_macd(value_buy=30, value_sell=70, period_rsi = 15, period_mean_rsi=40, fast_macd = int(x[0]), slow_macd = int(x[1]), take_profit = 0.01, stop_loss = -0.01)
     strategy.calculate_indicators(data)
 
     
@@ -42,11 +42,13 @@ data = Analize_symbol.create_symbol_dataset("AAL")
 
 
 
-bounds = optimize.Bounds(lb=[5,60,5,5,5,5,0.005,-0.03], ub=[40,90,30,50,30,50,0.03,-0.001])
+#bounds = optimize.Bounds(lb=[5,60,5,5,5,5,0.005,-0.03], ub=[40,90,30,50,30,50,0.03,-0.001])
+bounds = optimize.Bounds(lb=[1,10], ub=[30,70])
 
 #xopt = optimize.minimize(function_profit_rsi_macd, x0, args=(),  bounds=bounds,  tol=1, callback=None, options={'disp':True})
 
 
 
-xopt = optimize.differential_evolution(function_profit_rsi_macd, bounds = bounds, maxiter=30, popsize=15, tol=1,  disp=True, atol=0)
+xopt = optimize.differential_evolution(function_profit_rsi_macd, bounds = bounds, maxiter=30, popsize=15, tol=0.1,  disp=True, atol=0)
 
+print(xopt)
