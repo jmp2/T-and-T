@@ -50,6 +50,7 @@ class GraphicReport():
         fig.show()
 
     def seaborn_plot(self, cols):
+        sns.set_style("ticks",{'axes.grid' : True})
         _, axes = plt.subplots(3, 1, figsize=(18, 10))
         g = sns.lineplot(ax=axes[0], data=self.data, x=self.data.index, y="close")
         for pos in self.position_list:
