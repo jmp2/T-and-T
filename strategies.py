@@ -62,9 +62,15 @@ class rsi_macd():
         cols = [
             "cross_macd",
             "rsi_close",
-            "mean_rsi_close"
+            "mean_rsi_close",
+            "macdh_close",
+            "macds_close",
+            "macd_close",
+            "derivative_mean_rsi_close",
+            "2_derivative_mean_rsi_close"
         ]
-        return cols
+        col_pos = [2, 1, 1, 2, 2, 2, 3, 3]
+        return [cols, col_pos]
 
     def perform(self, data):
         """
@@ -75,10 +81,10 @@ class rsi_macd():
             rsi_value: Current RSI value
         Outputs:             
         """
-        if data["cross_macd"] == 1 and data["rsi_close"]>data["mean_rsi_close"]:
+        if data["cross_macd"] == 1 and data["derivative_mean_rsi_close"]>0 and data["2_derivative_mean_rsi_close"]>0:
             return "buy"
         profit = data["close"]/self.position -1
-        if profit>self.take_profit or profit<self.stop_loss or data["rsi_close"] > self.value_sell:
+        if profit>self.take_profit or profit<self.stop_loss or data["2_derivative_mean_rsi_close"]<0:
             return "sell"
         return None
     
@@ -87,3 +93,7 @@ class rsi_macd():
         data = Calculate_indicator.compute_rsi(data, self.period_rsi)
         data = Calculate_indicator.compute_macd(data, self.fast_macd, self.slow_macd)
         data = Calculate_indicator.compute_mean_rsi(data, self.period_mean_rsi)
+        
+        
+
+        
