@@ -30,7 +30,7 @@ class Calculate_indicator():
     
     @staticmethod
     def compute_sma(df:pd.DataFrame, period=50):
-        df["sma"+ str(period) + "_close"]=ta.sma(df["close"], length = period)
+        df["sma_"+ str(period) + "_close"]=ta.sma(df["close"], length = period)
         return df
     
     @staticmethod

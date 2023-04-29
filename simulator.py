@@ -74,6 +74,7 @@ class Simulator():
                 if sell_flag == True:
                     self.close_positions(data.index[idx],data["close"].loc[idx])
                 #print(f"\n\n RSI: {data['rsi_close'].loc[idx]} || Order: {order} || Price: {data.close.loc[idx]} || N_Stocks: {self.n_stocks} || Budget: {self.budget}")
+            self.graphic_report.append_record(data["close"].loc[idx], self.budget+self.n_stocks*data["close"].loc[idx])
             # if data["rsi_close"].loc[idx] < 20 or data["rsi_close"].loc[idx] > 70:
 
         self.report.register_final_budget(self.budget+self.n_stocks*float(data.tail(1)["close"].values))

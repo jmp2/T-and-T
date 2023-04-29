@@ -10,10 +10,7 @@ from strategies import rsi_macd
 #   4- Perform simulation
 #   5- Strategy optimization 
 
-
 symbol = "AAL"
-
-
 budget = 10000
 
 if __name__ == "__main__":
@@ -25,11 +22,11 @@ if __name__ == "__main__":
     date_ini = "28-01-2021"
     date_end = "29-01-2021"
 
+
     # Analize_symbol.represent_symbol(data, ["close","rsi_close", 'mean_rsi_close', "macd_close", "macdh_close", "macds_close"],[1,2,2,3,3,3], date_ini = date_ini, date_end = date_end)
 
 
     # Perform simulation
     simulator = Simulator(budget, strategy, quantity = 500, fixed_comission=1, variable_comission=0, min_tax=1)
 
-    simulator.run_simulation(data, date_ini = date_ini, date_end = date_end, plot=True)
-    a=1
+    simulator.run_simulation(data, date_ini = date_ini, date_end = date_end)

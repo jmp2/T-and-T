@@ -4,6 +4,7 @@ import plotly.io as pio
 
 import matplotlib.pyplot as plt
 import seaborn as sns
+import pandas as pd
 
 pio.renderers.default='browser'
 
@@ -12,6 +13,18 @@ class GraphicReport():
     def __init__(self) -> None:
         self.data = None
         self.position_list = None
+        self.price = []
+        self.current_budget = []
+
+    def append_record(self, price, position):
+        self.price.append(price)
+        self.current_budget.append(position)
+
+    def compute_comparison(self):
+        df_comp = pd.DataFrame()
+        df_comp["price"] = self.price / self.price[0]
+        df_comp["position"] = self.current_budget / self.current_budget[0]
+        return df_comp
 
     def set_data(self, data):
         self.data = data
@@ -25,7 +38,6 @@ class GraphicReport():
         else:
             self.seaborn_plot(cols, col_pos)
 
-    
     def plotly_plot(self, cols):
         fig = make_subplots(rows=len(cols), cols=1)
         #fig = make_subplots(rows=2, cols=1)
@@ -38,10 +50,9 @@ class GraphicReport():
         fig.show()
     
     def seaborn_plot(self, cols, col_pos):
-        print(col_pos)
-        fig, axes = plt.subplots(max(col_pos)+1, 1, figsize=(18, 10))
-        for ax in axes:
-            ax.grid()
+        sns.set_style("ticks",{'axes.grid' : True})
+        fig, axes = plt.subplots(max(col_pos)+2, 1, figsize=(18, 10))
+
         g = sns.lineplot(ax=axes[0], data=self.data, x=self.data.index, y="close")
 
         for pos in self.position_list:
@@ -50,5 +61,12 @@ class GraphicReport():
         
         for i in range(len(cols)):
             sns.lineplot(ax=axes[col_pos[i]], data=self.data, x=self.data.index, y=cols[i])
+        
+        df_comp = self.compute_comparison()
+        sns.lineplot(ax=axes[max(col_pos)+1], data=df_comp, x=self.data.index,
+                     y="price", label="Index returns")
+        sns.lineplot(ax=axes[max(col_pos)+1], data=df_comp, x=self.data.index,
+                     y="position", label="Strategy returns")
+        plt.legend()
 
         plt.show()

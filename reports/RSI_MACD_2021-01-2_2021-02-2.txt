@@ -1,0 +1,6 @@
+####################
+Duration: 31 days, 0:00:00
+Initial budget: 10000
+Number of operations: 76
+Final budget: 13612.149999999998
+Performance: 1.3612149999999998
